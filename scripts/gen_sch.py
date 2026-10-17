@@ -250,13 +250,13 @@ text('I2C pull-ups to 3.0V\n(DNP if T4 pull-ups suffice)', 76.2, 133.35)
 # ---- J2: JST PH 2.0 to BQ25798 charger board --------------------------------------
 j2 = place('Connector_Generic:Conn_01x05', 'J2', 'BQ25798_BOARD', 50.8, 142.24,
            footprint='Connector_JST:JST_PH_B5B-PH-K_1x05_P2.00mm_Vertical')
-pwr(j2['1'], '+3V0')     # 3.0V supplied to the charger board (pull-ups / logic)
-label(j2['2'], 'SDA')
+pwr(j2['1'], 'GND')
+label(j2['2'], 'CHG_INT')
 label(j2['3'], 'SCL')
-label(j2['4'], 'CHG_INT')
-pwr(j2['5'], 'GND')
-text('J2 -> BQ25798 charger board (JST PH 2.0)\n1: 3V (out, from U1)\n2: I2C_SDA\n3: I2C_SCL\n'
-     '4: INT (BQ25798 /INT, open-drain, active low)\n5: GND\nBQ25798 I2C addr 0x6B', 30.48, 162.56)
+label(j2['4'], 'SDA')
+pwr(j2['5'], '+3V0')     # 3.0V supplied to the charger board (pull-ups / logic)
+text('J2 -> BQ25798 charger board (JST PH 2.0)\n1: GND\n2: INT (BQ25798 /INT, open-drain, active low)\n'
+     '3: I2C_SCL\n4: I2C_SDA\n5: 3V (out, from U1)\nBQ25798 I2C addr 0x6B', 30.48, 165.1)
 r3 = place('Device:R', 'R3', '10k', 101.6, 116.84, footprint=R_FP)
 pwr(r3['1'], '+3V0')
 label(r3['2'], 'CHG_INT')
