@@ -79,6 +79,7 @@ LIBS = {
             'ki_description': '500mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SOT-23-5',
         }),
     'Transistor_FET:BSS138': embed('Transistor_FET', 'BSS138'),
+    'Mechanical:MountingHole': embed('Mechanical', 'MountingHole'),
     'power:GND': embed('power', 'GND'),
     'power:+5V': embed('power', '+5V'),
     'power:+3V0': embed('power', '+3V0'),
@@ -105,7 +106,7 @@ def prop(name, value, x, y, hide=False, justify=None, angle=0):
 
 
 def place(lib_id, ref, value, x, y, footprint='', datasheet='~', fields=None, rot=0, vpos=None,
-          vjust=None, vangle=0, rpos=None, rjust=None):
+          vjust=None, vangle=0, rpos=None, rjust=None, bom=True):
     pins = PINS[lib_id]
     is_pwr = ref.startswith('#')
     if lib_id.startswith('Connector_Generic:') and rpos is None:
@@ -127,7 +128,7 @@ def place(lib_id, ref, value, x, y, footprint='', datasheet='~', fields=None, ro
     pin_lines = '\n'.join(f'    (pin "{n}" (uuid {uid()}))' for n in pins)
     items.append(
         f'  (symbol (lib_id "{lib_id}") (at {fmt(x)} {fmt(y)} {rot}) (unit 1)\n'
-        f'    (in_bom {"no" if is_pwr else "yes"}) (on_board {"no" if is_pwr else "yes"}) (dnp no)\n'
+        f'    (in_bom {"no" if is_pwr or not bom else "yes"}) (on_board {"no" if is_pwr else "yes"}) (dnp no)\n'
         f'    (uuid {uid()})\n' + '\n'.join(props) + '\n' + pin_lines + '\n'
         f'    (instances\n      (project "{PROJECT}"\n'
         f'        (path "/{ROOT_UUID}" (reference "{ref}") (unit 1))\n      )\n    )\n  )')
@@ -377,6 +378,13 @@ pwr(c4['1'], '+3V0')
 pwr(c4['2'], 'GND')
 text('LIS3DH, I2C addr 0x18 (SA0=GND)\nCS=VDD_IO selects I2C\nC3/C4 close to pin 14',
      149.86, 116.84)
+
+# ---- mounting holes: 2 x M3 (3.2mm), non-plated ------------------------------------
+for i, x in enumerate((40.64, 55.88), 1):
+    place('Mechanical:MountingHole', f'H{i}', 'M3', x, 228.6,
+          footprint='MountingHole:MountingHole_3.2mm_M3', bom=False)
+text('H1/H2: M3 mounting holes (3.2mm, NPTH)\nmount near U2 so the accelerometer is held rigidly',
+     30.48, 243.84)
 
 # ---- write --------------------------------------------------------------------------
 lib_txt = '\n'.join('    ' + b.replace('\n', '\n  ') for b in LIBS.values())
