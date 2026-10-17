@@ -2,7 +2,7 @@
 
 板上用 LDO 轉出 3.0V，讓 I2C 電位和 NanoPC-T4 的 I2C2（3.0V I/O）一致，同時經 JST 接頭供電和 I2C 給 BQ25798 充電板。
 
-**狀態：原理圖和 layout 完成（102.9 × 25.4 mm，雙層板），DRC 無錯誤。**
+**狀態：原理圖和 layout 完成（87.6 × 25.4 mm，雙層板），DRC 無錯誤。**
 
 ## 規格
 | 項目 | 內容 |
@@ -81,7 +81,7 @@ I2C2 上的位址：LIS3DH 是 0x18，BQ25798 是 0x6B，沒有衝突。
 - `scripts/route.sh`、`scripts/route_pcb.py`：自動佈線流程（KiCad 10 Docker + Freerouting 1.9）
 
 ## Layout
-- 板子 102.9 × 25.4 mm，雙層；零件擺放為手動，走線由 Freerouting 自動佈線
+- 板子 87.6 × 25.4 mm，雙層；零件擺放和最終走線為手動調整（初版由 Freerouting 自動佈線）
 - B.Cu 整面 GND；F.Cu 空白處鋪 GND，另加 6 顆 GND 縫合過孔
 - 網路類別（定義在 `.kicad_pro`）：
 
