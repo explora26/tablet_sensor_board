@@ -9,7 +9,7 @@ C4,1,10uF 10V X5R,0603,YAGEO,CC0603MRX5R6BB106,C109453,SMT,check stock,LIS3DH bu
 R1 R2,2,4.7k 1%,0603,YAGEO,RC0603FR-074K7L,C99782,SMT,confirmed,I2C pull-ups to 3.0V
 R4 R5 R7,3,10k 1%,0603,YAGEO,RC0603FR-0710KL,C98220,SMT,confirmed,Level shifter pull-ups / WL-125 RESET pull-up
 R6,1,4.7R,0805,YAGEO,(per LCSC C137423),C137423,SMT,user-selected,RFID RC filter stage 1; verify the LCSC page shows 4.7 ohm
-R8 R9,2,1R 1%,0805,YAGEO,RC0805FR-071RL,,SMT,find LCSC,RFID RC filter stages 2-3
+R8 R9,2,1R,0805,YAGEO,(per LCSC C131397),C131397,SMT,user-selected,RFID RC filter stages 2-3; verify the LCSC page shows 1 ohm
 J2,1,JST PH 5P vertical,2.0mm THT,JST,B5B-PH-K-S(LF)(SN),C157993,hand solder,confirmed,BQ25798 charger board
 J1,1,1x07 pin header,2.54mm THT,any,,,hand solder,,NanoPC-T4 interface
 J3,1,1x10 pin socket,2.54mm THT,any,,,hand solder,,WL-125 socket (pin 1 = key)
