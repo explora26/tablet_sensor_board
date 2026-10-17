@@ -1,14 +1,14 @@
 Designator,Qty,Value,Package,Manufacturer,MPN,LCSC,Assembly,Status,Notes
 U2,1,LIS3DH,LGA-16 3x3mm,ST,LIS3DHTR,C15134,SMT,confirmed,3-axis accelerometer (I2C addr 0x18)
 U1,1,TLV75530,SOT-23-5,TI,TLV75530PDBVR,C507268,SMT,confirmed,500mA LDO 3.0V
-Q1,1,BSS138,SOT-23,CJ (Jiangsu Changjing),BSS138,C78284,SMT,check,RFID TX level shifter; any BSS138 SOT-23 works
+Q1,1,BSS138,SOT-23,Diodes,BSS138-7-F,C40912,SMT,confirmed,RFID TX level shifter
 C5 C7 C8,3,1000uF 10V,SMD 8x10.2mm,Panasonic,EEE-FT1A102AP,C278408,SMT,confirmed,RFID supply RC filter; polarized
 C1 C2,2,1uF 16V X7R,0603,YAGEO,CC0603KRX7R7BB105,C106248,SMT,confirmed,LDO input/output
 C3 C6,2,100nF 50V X7R,0603,YAGEO,CC0603KRX7R9BB104,C14663,SMT,confirmed,LIS3DH VDD / RFID HF decoupling
 C4,1,10uF 10V X5R,0603,YAGEO,CC0603MRX5R6BB106,C109453,SMT,check stock,LIS3DH bulk; alt YAGEO CC0603MRX5R5BB106 (6.3V) C109454
 R1 R2,2,4.7k 1%,0603,YAGEO,RC0603FR-074K7L,C99782,SMT,confirmed,I2C pull-ups to 3.0V
 R4 R5 R7,3,10k 1%,0603,YAGEO,RC0603FR-0710KL,C98220,SMT,confirmed,Level shifter pull-ups / WL-125 RESET pull-up
-R6,1,4.7R 1%,0805,YAGEO,RC0805FR-074R7L,,SMT,find LCSC,RFID RC filter stage 1
+R6,1,4.7R,0805,YAGEO,(per LCSC C137423),C137423,SMT,user-selected,RFID RC filter stage 1; verify the LCSC page shows 4.7 ohm
 R8 R9,2,1R 1%,0805,YAGEO,RC0805FR-071RL,,SMT,find LCSC,RFID RC filter stages 2-3
 J2,1,JST PH 5P vertical,2.0mm THT,JST,B5B-PH-K-S(LF)(SN),C157993,hand solder,confirmed,BQ25798 charger board
 J1,1,1x07 pin header,2.54mm THT,any,,,hand solder,,NanoPC-T4 interface
