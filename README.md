@@ -73,7 +73,7 @@ I2C2 上的位址：LIS3DH 是 0x18，BQ25798 是 0x6B，沒有衝突。
 ## 檔案
 - `lis3dh_board.kicad_pro`、`lis3dh_board.kicad_sch`、`lis3dh_board.kicad_pcb`：KiCad 專案（PCB 為 KiCad 10 格式）
 - `fab/lis3dh_board_gerbers.zip`：Gerber 和鑽孔檔（`fab/gerbers/` 為解開的檔案）
-- `fab/bom.csv`：完整 BOM（廠牌、MPN、LCSC 料號、組裝方式、確認狀態）；電阻和陶瓷電容用國巨（YAGEO）
+- `fab/bom.csv`：完整 BOM（廠牌、MPN、LCSC 料號、組裝方式、確認狀態）；電阻和陶瓷電容用國巨（YAGEO），C4 例外用 Samsung CL10A106KP8NNNC（JLC 基礎料）
 - `fab/jlc_bom.csv`、`fab/jlc_cpl.csv`：JLCPCB SMT 代焊用的 BOM 和座標檔（只含 SMD 零件；J1–J4 插件手焊）
 - `fab/positions.csv`：KiCad 原始座標檔
 - `docs/schematic.pdf`、`docs/pcb_front.png`：原理圖 PDF 和 PCB 正面預覽
