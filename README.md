@@ -2,7 +2,7 @@
 
 板上用 LDO 轉出 3.0V，讓 I2C 電位和 NanoPC-T4 的 I2C2（3.0V I/O）一致，同時經 JST 接頭供電和 I2C 給 BQ25798 充電板。
 
-**狀態：原理圖完成，layout 尚未開始（板子尺寸待定）。**
+**狀態：原理圖和 layout 完成（102.9 × 25.4 mm，雙層板），DRC 無錯誤。**
 
 ## 規格
 | 項目 | 內容 |
@@ -29,7 +29,7 @@
 | J2 | 訊號 | 說明 |
 |---|---|---|
 | 1 | GND | |
-| 2 | INT | BQ25798 的 /INT（開汲極，低電位觸發），在小板上用 R3（10k）上拉到 3.0V，再經 J1 第 6 腳送到 T4 |
+| 2 | INT | BQ25798 的 /INT（開汲極，低電位觸發），上拉電阻在充電板上（小板不另加），經 J1 第 6 腳送到 T4 |
 | 3 | I2C_SCL | 和 T4 的 I2C2 共用匯流排 |
 | 4 | I2C_SDA | 同上 |
 | 5 | 3V | 小板輸出的 3.0V（來自 U1），供充電板的上拉電阻和邏輯電路使用 |
@@ -71,19 +71,31 @@ I2C2 上的位址：LIS3DH 是 0x18，BQ25798 是 0x6B，沒有衝突。
 > 不要接 27、28 腳：那組 I2C2 是 1.8V。完整腳位見 `docs/nanopc-t4_40pin.md`。
 
 ## 檔案
-- `lis3dh_board.kicad_pro`、`lis3dh_board.kicad_sch`：KiCad 專案（以 KiCad 7 格式產生，KiCad 10 開啟後會提示升級格式）
-- `docs/schematic.pdf`：原理圖 PDF
+- `lis3dh_board.kicad_pro`、`lis3dh_board.kicad_sch`、`lis3dh_board.kicad_pcb`：KiCad 專案（PCB 為 KiCad 10 格式）
+- `fab/lis3dh_board_gerbers.zip`：Gerber 和鑽孔檔（`fab/gerbers/` 為解開的檔案）
+- `fab/bom.csv`、`fab/positions.csv`：BOM 和貼片座標檔
+- `docs/schematic.pdf`、`docs/pcb_front.png`：原理圖 PDF 和 PCB 正面預覽
 - `docs/nanopc-t4_40pin.md`：NanoPC-T4 40-pin 腳位表和接線注意事項
-- `fab/bom.csv`：BOM（尚未對應 LCSC 料號）
 - `software/lis3dh_test.py`：在 T4 上讀取 X/Y/Z 的測試程式
 - `scripts/gen_sch.py`：產生原理圖的腳本
-- `scripts/gen_pcb.py`：自動擺放零件和佈線的實驗腳本，零件位置是寫死的，加入 J2、R3 之後還沒更新
+- `scripts/route.sh`、`scripts/route_pcb.py`：自動佈線流程（KiCad 10 Docker + Freerouting 1.9）
 
-## Layout（待辦）
-板子尺寸決定後，在 KiCad 10 裡開啟 PCB 編輯器，按 F8（從原理圖更新 PCB）帶入零件，再進行擺放和佈線。
+## Layout
+- 板子 102.9 × 25.4 mm，雙層；零件擺放為手動，走線由 Freerouting 自動佈線
+- B.Cu 整面 GND；F.Cu 空白處鋪 GND，另加 6 顆 GND 縫合過孔
+- 網路類別（定義在 `.kicad_pro`）：
 
-建議：
-- C3、C4 靠近 LIS3DH 的 VDD（pin 14）
-- LIS3DH 放在螺絲孔附近、遠離接頭，減少拔插時的應力
-- B.Cu 整面 GND
-- 線寬 0.25 mm、間距 0.13 mm、過孔 0.6/0.3 mm，在 JLCPCB 標準製程範圍內
+| 類別 | 網路 | 線寬 | 間距 |
+|---|---|---|---|
+| Default | 訊號、+3V0、GND | 0.25 mm | 0.13 mm |
+| Power | +5V、VRF1、VRF2、VCC_RF | 0.4 mm | 0.15 mm |
+| ANT | ANT1、ANT2（天線，50–100 Vpp） | 0.3 mm | 0.4 mm |
+
+- +3V0 和 GND 用 0.25 mm，因為要接進 LIS3DH 0.5 mm 腳距的焊墊；這兩個網路電流都很小
+- ANT 間距 0.4 mm：PicoBlade 兩腳本身只有 0.45 mm，走線上有防焊漆覆蓋，100 Vpp 在 IPC-2221 塗覆走線的範圍內
+- 過孔 0.6/0.3 mm，在 JLCPCB 標準製程範圍內
+
+重新佈線（會清掉現有走線，零件位置不動）：
+```bash
+scripts/route.sh /path/to/freerouting-1.9.0.jar
+```

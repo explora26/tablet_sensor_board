@@ -5,7 +5,6 @@ C1 C2,2,1uF 10V X7R,0603,LDO input/output capacitors
 C3,1,100nF 10V X7R,0603,LIS3DH VDD decoupling
 C4,1,10uF 6.3V X5R,0603,LIS3DH bulk decoupling
 R1 R2,2,4.7k 1%,0603,I2C pull-ups to 3.0V (optional)
-R3,1,10k 1%,0603,CHG_INT pull-up to 3.0V
 J1,1,1x07 pin header,2.54mm vertical,Connection to NanoPC-T4
 J2,1,JST PH B5B-PH-K,2.0mm vertical,Connection to BQ25798 charger board
 J3,1,1x10 pin socket,2.54mm vertical,Socket for WL-125 RFID module (pin 1 = key, J3 pin = module pin + 1)

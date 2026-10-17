@@ -263,10 +263,7 @@ label(j2['4'], 'SDA')
 pwr(j2['5'], '+3V0')     # 3.0V supplied to the charger board (pull-ups / logic)
 text('J2 -> BQ25798 charger board (JST PH 2.0)\n1: GND\n2: INT (BQ25798 /INT, open-drain, active low)\n'
      '3: I2C_SCL\n4: I2C_SDA\n5: 3V (out, from U1)\nBQ25798 I2C addr 0x6B', 30.48, 165.1)
-r3 = place('Device:R', 'R3', '10k', 101.6, 116.84, footprint=R_FP)
-pwr(r3['1'], '+3V0')
-label(r3['2'], 'CHG_INT')
-text('R3: CHG_INT pull-up\n(BQ25798 /INT is open-drain)', 76.2, 138.43)
+text('CHG_INT: BQ25798 /INT is open-drain; pull-up is on the charger board\n(or enable the T4 GPIO1_A0 internal pull-up)', 76.2, 138.43)
 
 # ---- J3: WL-125 125kHz RFID module (plugs in, 1x10 socket) ----------------------
 # J3 pin 1 is the polarization key (next to module pin 1); module pins 1-9 map to J3 2-10.
