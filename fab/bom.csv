@@ -9,8 +9,9 @@ R3,1,10k 1%,0603,CHG_INT pull-up to 3.0V
 J1,1,1x07 pin header,2.54mm vertical,Connection to NanoPC-T4
 J2,1,JST PH B5B-PH-K,2.0mm vertical,Connection to BQ25798 charger board
 J3,1,1x10 pin socket,2.54mm vertical,Socket for WL-125 RFID module (pin 10 = key)
-R4,1,10k 1%,0603,RFID TX divider (top)
-R5,1,15k 1%,0603,RFID TX divider (bottom) -> ~3.0V
+Q1,1,BSS138,SOT-23,RFID TX level shifter 5V -> 3.0V
+R4,1,10k 1%,0603,Level shifter LV-side pull-up (3.0V)
+R5,1,10k 1%,0603,Level shifter HV-side pull-up (VCC_RF 5V)
 R6,1,2.2R,0805,RFID supply filter
 R7,1,10k 1%,0603,WL-125 /RESET pull-up
 C5,1,1000uF 10V,Radial D10mm P5mm,RFID supply bulk capacitor

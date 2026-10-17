@@ -77,6 +77,7 @@ LIBS = {
             'Datasheet': 'https://www.ti.com/lit/ds/symlink/tlv755p.pdf',
             'ki_description': '500mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SOT-23-5',
         }),
+    'Transistor_FET:BSS138': embed('Transistor_FET', 'BSS138'),
     'power:GND': embed('power', 'GND'),
     'power:+5V': embed('power', '+5V'),
     'power:+3V0': embed('power', '+3V0'),
@@ -263,7 +264,7 @@ text('J2 -> BQ25798 charger board (JST PH 2.0)\n1: GND\n2: INT (BQ25798 /INT, op
 r3 = place('Device:R', 'R3', '10k', 101.6, 116.84, footprint=R_FP)
 pwr(r3['1'], '+3V0')
 label(r3['2'], 'CHG_INT')
-text('R3: CHG_INT pull-up (BQ25798 /INT is open-drain)', 76.2, 138.43)
+text('R3: CHG_INT pull-up\n(BQ25798 /INT is open-drain)', 76.2, 138.43)
 
 # ---- J3: WL-125 125kHz RFID module (plugs in, 1x10 socket) ----------------------
 # Module pins 1-9 map to J3 1-9; J3 pin 10 is the polarization key (no connection).
@@ -282,23 +283,32 @@ nc(j3['10'])                  # key
 text('J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n'
      '1,2: ANT - coil soldered on module, ~100Vpp, NC here\n'
      '3: ASCII select = VCC_RF (UART mode)\n4: BEEP (NC)\n'
-     '5: TX 9600 8N1, 5V -> R4/R5 -> RFID_TX 3.0V\n6: Wiegand D0 (NC)\n'
+     '5: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n6: Wiegand D0 (NC)\n'
      '7: /RESET (R7 pull-up)\n8: GND\n9: VCC_RF (5V, RC filtered)\n10: key, NC',
      213.36, 106.68)
 
-# TX level shift 5V -> 3.0V for T4 UART4_RX
-r4 = place('Device:R', 'R4', '10k', 129.54, 152.4, footprint=R_FP)
-label(r4['1'], 'RFID_TX_5V')
+# TX level shift 5V -> 3.0V for T4 UART4_RX: BSS138 bidirectional shifter
+# (same topology as Adafruit #757), LV side 3.0V, HV side VCC_RF
+r5 = place('Device:R', 'R5', '10k', 104.14, 152.4, footprint=R_FP)
+label(r5['1'], 'VCC_RF')
+label(r5['2'], 'RFID_TX_5V')
+r4 = place('Device:R', 'R4', '10k', 114.3, 152.4, footprint=R_FP)
+pwr(r4['1'], '+3V0')
 label(r4['2'], 'RFID_TX')
-r5 = place('Device:R', 'R5', '15k', 139.7, 152.4, footprint=R_FP)
-label(r5['1'], 'RFID_TX')
-pwr(r5['2'], 'GND')
-r7 = place('Device:R', 'R7', '10k', 149.86, 152.4, footprint=R_FP)
+q1 = place('Transistor_FET:BSS138', 'Q1', 'BSS138', 142.24, 152.4,
+           footprint='Package_TO_SOT_SMD:SOT-23',
+           rpos=(147.32, 151.13), rjust='left', vpos=(147.32, 153.67), vjust='left')
+pwr(q1['1'], '+3V0')          # G -> LV supply
+label(q1['2'], 'RFID_TX')     # S -> LV side (T4)
+label(q1['3'], 'RFID_TX_5V')  # D -> HV side (WL-125 TX)
+text('Q1/R4/R5: BSS138 level shifter (Adafruit #757 topology)\n'
+     'LV 3.0V (T4 UART4_RX) <-> HV 5V (WL-125 TX)', 99.06, 175.26)
+r7 = place('Device:R', 'R7', '10k', 157.48, 152.4, footprint=R_FP)
 label(r7['1'], 'VCC_RF')
 label(r7['2'], 'RFID_RST')
 
 # clean 5V for the 125kHz reader: series R + 1000uF (per WL-125 datasheet)
-r6 = place('Device:R', 'R6', '2.2R', 165.1, 152.4, footprint='Resistor_SMD:R_0805_2012Metric')
+r6 = place('Device:R', 'R6', '2.2R', 167.64, 152.4, footprint='Resistor_SMD:R_0805_2012Metric')
 pwr(r6['1'], '+5V')
 label(r6['2'], 'VCC_RF')
 c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 180.34, 152.4,
