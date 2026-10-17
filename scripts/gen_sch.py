@@ -65,8 +65,10 @@ def pins_of(block):
 LIBS = {
     'Device:R': embed('Device', 'R'),
     'Device:C': embed('Device', 'C'),
+    'Device:C_Polarized': embed('Device', 'C_Polarized'),
     'Connector_Generic:Conn_01x05': embed('Connector_Generic', 'Conn_01x05'),
-    'Connector_Generic:Conn_01x06': embed('Connector_Generic', 'Conn_01x06'),
+    'Connector_Generic:Conn_01x07': embed('Connector_Generic', 'Conn_01x07'),
+    'Connector_Generic:Conn_01x10': embed('Connector_Generic', 'Conn_01x10'),
     'Sensor_Motion:LIS3DH': embed('Sensor_Motion', 'LIS3DH'),
     'Regulator_Linear:TLV75530PDBV': embed(
         'Regulator_Linear', 'TLV75530PDBV', base='TLV70012_SOT23-5',
@@ -107,7 +109,7 @@ def place(lib_id, ref, value, x, y, footprint='', datasheet='~', fields=None, ro
     if lib_id.startswith('Connector_Generic:') and rpos is None:
         rpos, rjust = (x + 3.81, y - 1.27), 'left'
         vpos, vjust = (x + 3.81, y + 1.27), 'left'
-    if lib_id in ('Device:R', 'Device:C') and rpos is None:
+    if lib_id in ('Device:R', 'Device:C', 'Device:C_Polarized') and rpos is None:
         rpos, rjust = (x + 2.54, y - 1.27), 'left'
         vpos, vjust = (x + 2.54, y + 1.27), 'left'
     props = [
@@ -197,17 +199,18 @@ R_FP = 'Resistor_SMD:R_0603_1608Metric'
 C_FP = 'Capacitor_SMD:C_0603_1608Metric'
 
 # ---- J1: connector to NanoPC-T4 40-pin header --------------------------------
-j1 = place('Connector_Generic:Conn_01x06', 'J1', 'T4_I2C2', 50.8, 76.2,
-           footprint='Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical')
+j1 = place('Connector_Generic:Conn_01x07', 'J1', 'T4_IF', 50.8, 76.2,
+           footprint='Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical')
 pwr(j1['1'], '+5V')
 pwr(j1['2'], 'GND')
 label(j1['3'], 'SCL')
 label(j1['4'], 'SDA')
 label(j1['5'], 'INT1')
 label(j1['6'], 'CHG_INT')
+label(j1['7'], 'RFID_TX')
 text('J1 -> NanoPC-T4 40-pin\n1: VIN  -> pin 2  (5V)\n2: GND  -> pin 6\n'
-     '3: SCL  -> pin 5  (I2C2_SCL, 3V)\n4: SDA  -> pin 3  (I2C2_SDA, 3V)\n5: INT1 -> pin 11 (GPIO1_A1, 3V, optional)\n6: CHG_INT -> pin 7 (GPIO1_A0, 3V)\nDo NOT use pins 27/28 (I2C2 1.8V)',
-     30.48, 101.6)
+     '3: SCL  -> pin 5  (I2C2_SCL, 3V)\n4: SDA  -> pin 3  (I2C2_SDA, 3V)\n5: INT1 -> pin 11 (GPIO1_A1, 3V, optional)\n6: CHG_INT -> pin 7 (GPIO1_A0, 3V)\n7: RFID_TX -> pin 21 (UART4_RX, 3V)\nDo NOT use pins 27/28 (I2C2 1.8V)',
+     30.48, 104.14)
 
 # power flags: +5V and GND come only from the connector
 power('PWR_FLAG', 25.4, 45.72)
@@ -261,6 +264,50 @@ r3 = place('Device:R', 'R3', '10k', 101.6, 116.84, footprint=R_FP)
 pwr(r3['1'], '+3V0')
 label(r3['2'], 'CHG_INT')
 text('R3: CHG_INT pull-up (BQ25798 /INT is open-drain)', 76.2, 138.43)
+
+# ---- J3: WL-125 125kHz RFID module (plugs in, 1x10 socket) ----------------------
+# Module pins 1-9 map to J3 1-9; J3 pin 10 is the polarization key (no connection).
+j3 = place('Connector_Generic:Conn_01x10', 'J3', 'WL-125', 228.6, 144.78,
+           footprint='Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical')
+nc(j3['1'])                   # ANT1: coil soldered on the module, ~100 Vpp
+nc(j3['2'])                   # ANT2
+label(j3['3'], 'VCC_RF')      # ASCII select: high = UART output (must not float)
+nc(j3['4'])                   # BEEP
+label(j3['5'], 'RFID_TX_5V')  # TX 9600 8N1, 5V TTL
+nc(j3['6'])                   # Wiegand D0
+label(j3['7'], 'RFID_RST')    # /RESET, active low
+pwr(j3['8'], 'GND')
+label(j3['9'], 'VCC_RF')      # module supply
+nc(j3['10'])                  # key
+text('J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n'
+     '1,2: ANT - coil soldered on module, ~100Vpp, NC here\n'
+     '3: ASCII select = VCC_RF (UART mode)\n4: BEEP (NC)\n'
+     '5: TX 9600 8N1, 5V -> R4/R5 -> RFID_TX 3.0V\n6: Wiegand D0 (NC)\n'
+     '7: /RESET (R7 pull-up)\n8: GND\n9: VCC_RF (5V, RC filtered)\n10: key, NC',
+     213.36, 106.68)
+
+# TX level shift 5V -> 3.0V for T4 UART4_RX
+r4 = place('Device:R', 'R4', '10k', 129.54, 152.4, footprint=R_FP)
+label(r4['1'], 'RFID_TX_5V')
+label(r4['2'], 'RFID_TX')
+r5 = place('Device:R', 'R5', '15k', 139.7, 152.4, footprint=R_FP)
+label(r5['1'], 'RFID_TX')
+pwr(r5['2'], 'GND')
+r7 = place('Device:R', 'R7', '10k', 149.86, 152.4, footprint=R_FP)
+label(r7['1'], 'VCC_RF')
+label(r7['2'], 'RFID_RST')
+
+# clean 5V for the 125kHz reader: series R + 1000uF (per WL-125 datasheet)
+r6 = place('Device:R', 'R6', '2.2R', 165.1, 152.4, footprint='Resistor_SMD:R_0805_2012Metric')
+pwr(r6['1'], '+5V')
+label(r6['2'], 'VCC_RF')
+c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 180.34, 152.4,
+           footprint='Capacitor_THT:CP_Radial_D10.0mm_P5.00mm')
+label(c5['1'], 'VCC_RF')
+pwr(c5['2'], 'GND')
+c6 = place('Device:C', 'C6', '100nF', 198.12, 152.4, footprint=C_FP)
+label(c6['1'], 'VCC_RF')
+pwr(c6['2'], 'GND')
 
 # ---- U2: LIS3DH --------------------------------------------------------------------
 u2 = place('Sensor_Motion:LIS3DH', 'U2', 'LIS3DH', 167.64, 81.28,

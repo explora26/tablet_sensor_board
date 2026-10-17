@@ -6,5 +6,12 @@ C3,1,100nF 10V X7R,0603,LIS3DH VDD decoupling
 C4,1,10uF 6.3V X5R,0603,LIS3DH bulk decoupling
 R1 R2,2,4.7k 1%,0603,I2C pull-ups to 3.0V (optional)
 R3,1,10k 1%,0603,CHG_INT pull-up to 3.0V
-J1,1,1x06 pin header,2.54mm vertical,Connection to NanoPC-T4
+J1,1,1x07 pin header,2.54mm vertical,Connection to NanoPC-T4
 J2,1,JST PH B5B-PH-K,2.0mm vertical,Connection to BQ25798 charger board
+J3,1,1x10 pin socket,2.54mm vertical,Socket for WL-125 RFID module (pin 10 = key)
+R4,1,10k 1%,0603,RFID TX divider (top)
+R5,1,15k 1%,0603,RFID TX divider (bottom) -> ~3.0V
+R6,1,2.2R,0805,RFID supply filter
+R7,1,10k 1%,0603,WL-125 /RESET pull-up
+C5,1,1000uF 10V,Radial D10mm P5mm,RFID supply bulk capacitor
+C6,1,100nF 10V X7R,0603,RFID supply decoupling
