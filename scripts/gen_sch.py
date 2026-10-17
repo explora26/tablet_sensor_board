@@ -267,24 +267,26 @@ label(r3['2'], 'CHG_INT')
 text('R3: CHG_INT pull-up\n(BQ25798 /INT is open-drain)', 76.2, 138.43)
 
 # ---- J3: WL-125 125kHz RFID module (plugs in, 1x10 socket) ----------------------
-# Module pins 1-9 map to J3 1-9; J3 pin 10 is the polarization key (no connection).
+# J3 pin 1 is the polarization key (next to module pin 1); module pins 1-9 map to J3 2-10.
 j3 = place('Connector_Generic:Conn_01x10', 'J3', 'WL-125', 228.6, 144.78,
            footprint='Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical')
-nc(j3['1'])                   # ANT1: coil soldered on the module, ~100 Vpp
-nc(j3['2'])                   # ANT2
-label(j3['3'], 'VCC_RF')      # ASCII select: high = UART output (must not float)
-nc(j3['4'])                   # BEEP
-label(j3['5'], 'RFID_TX_5V')  # TX 9600 8N1, 5V TTL
-nc(j3['6'])                   # Wiegand D0
-label(j3['7'], 'RFID_RST')    # /RESET, active low
-pwr(j3['8'], 'GND')
-label(j3['9'], 'VCC_RF')      # module supply
-nc(j3['10'])                  # key
+nc(j3['1'])                   # key
+nc(j3['2'])                   # module 1 ANT1: coil soldered on the module, ~100 Vpp
+nc(j3['3'])                   # module 2 ANT2
+label(j3['4'], 'VCC_RF')      # module 3 ASCII select: high = UART output (must not float)
+nc(j3['5'])                   # module 4 BEEP
+label(j3['6'], 'RFID_TX_5V')  # module 5 TX 9600 8N1, 5V TTL
+nc(j3['7'])                   # module 6 Wiegand D0
+label(j3['8'], 'RFID_RST')    # module 7 /RESET, active low
+pwr(j3['9'], 'GND')           # module 8 GND
+label(j3['10'], 'VCC_RF')     # module 9 VCC
 text('J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n'
-     '1,2: ANT - coil soldered on module, ~100Vpp, NC here\n'
-     '3: ASCII select = VCC_RF (UART mode)\n4: BEEP (NC)\n'
-     '5: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n6: Wiegand D0 (NC)\n'
-     '7: /RESET (R7 pull-up)\n8: GND\n9: VCC_RF (5V, RC filtered)\n10: key, NC',
+     'J3 pin = module pin + 1\n'
+     '1: key (next to module pin 1), NC\n'
+     '2,3: ANT1/2 - coil soldered on module, ~100Vpp, NC here\n'
+     '4: ASCII select = VCC_RF (UART mode)\n5: BEEP (NC)\n'
+     '6: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n7: Wiegand D0 (NC)\n'
+     '8: /RESET (R7 pull-up)\n9: GND\n10: VCC_RF (5V, RC filtered)',
      213.36, 106.68)
 
 # TX level shift 5V -> 3.0V for T4 UART4_RX: BSS138 bidirectional shifter

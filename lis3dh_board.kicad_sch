@@ -1786,61 +1786,63 @@
 
   (no_connect (at 223.52 137.16) (uuid 4c07e222-50fc-5d6c-9fd8-e3fc9a53b371))
 
-  (wire (pts (xy 223.52 139.7) (xy 220.98 139.7))
-    (stroke (width 0) (type default))
-    (uuid aca4bfb9-820a-5332-a770-271c94cfeba5)
-  )
+  (no_connect (at 223.52 139.7) (uuid aca4bfb9-820a-5332-a770-271c94cfeba5))
 
-  (label "VCC_RF" (at 220.98 139.7 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
+  (wire (pts (xy 223.52 142.24) (xy 220.98 142.24))
+    (stroke (width 0) (type default))
     (uuid ac75169e-2964-5cb5-94b4-e5846f455ea3)
   )
 
-  (no_connect (at 223.52 142.24) (uuid 04e21e96-efe6-5fe3-a17d-3e06afb682df))
-
-  (wire (pts (xy 223.52 144.78) (xy 220.98 144.78))
-    (stroke (width 0) (type default))
-    (uuid c516f02e-0c02-5ef5-b2c6-fc5267b34d47)
+  (label "VCC_RF" (at 220.98 142.24 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid 04e21e96-efe6-5fe3-a17d-3e06afb682df)
   )
 
-  (label "RFID_TX_5V" (at 220.98 144.78 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
+  (no_connect (at 223.52 144.78) (uuid c516f02e-0c02-5ef5-b2c6-fc5267b34d47))
+
+  (wire (pts (xy 223.52 147.32) (xy 220.98 147.32))
+    (stroke (width 0) (type default))
     (uuid 4fb9bf56-f747-593f-ac3e-205c283eb0bd)
   )
 
-  (no_connect (at 223.52 147.32) (uuid 2de6281f-6613-53b4-866c-f379e9bb29f9))
-
-  (wire (pts (xy 223.52 149.86) (xy 220.98 149.86))
-    (stroke (width 0) (type default))
-    (uuid 6091c4f6-c741-5264-b088-b32af5c657df)
-  )
-
-  (label "RFID_RST" (at 220.98 149.86 180) (fields_autoplaced)
+  (label "RFID_TX_5V" (at 220.98 147.32 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid fa477990-afa2-5004-b259-c626fa88d586)
+    (uuid 2de6281f-6613-53b4-866c-f379e9bb29f9)
   )
+
+  (no_connect (at 223.52 149.86) (uuid 6091c4f6-c741-5264-b088-b32af5c657df))
 
   (wire (pts (xy 223.52 152.4) (xy 220.98 152.4))
     (stroke (width 0) (type default))
+    (uuid fa477990-afa2-5004-b259-c626fa88d586)
+  )
+
+  (label "RFID_RST" (at 220.98 152.4 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 68128c3d-b85f-5c1a-a178-3815d1ec6164)
   )
 
-  (symbol (lib_id "power:GND") (at 220.98 152.4 270) (unit 1)
+  (wire (pts (xy 223.52 154.94) (xy 220.98 154.94))
+    (stroke (width 0) (type default))
+    (uuid 63b25213-6357-547a-8fb5-ddaa6882cb7c)
+  )
+
+  (symbol (lib_id "power:GND") (at 220.98 154.94 270) (unit 1)
     (in_bom no) (on_board no) (dnp no)
-    (uuid 937325a3-7fcf-58b3-b941-1537465f00d3)
-    (property "Reference" "#PWR019" (at 220.98 158.4 0)
+    (uuid 7520844b-5cc2-5464-b38e-463bb46db01e)
+    (property "Reference" "#PWR019" (at 220.98 160.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND" (at 216.98 152.4 270)
+    (property "Value" "GND" (at 216.98 154.94 270)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 220.98 152.4 0)
+    (property "Footprint" "" (at 220.98 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 220.98 152.4 0)
+    (property "Datasheet" "~" (at 220.98 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 63b25213-6357-547a-8fb5-ddaa6882cb7c))
+    (pin "1" (uuid 937325a3-7fcf-58b3-b941-1537465f00d3))
     (instances
       (project "lis3dh_board"
         (path "/1b8e18d0-3822-5ef2-b7bb-caef133ff686" (reference "#PWR019") (unit 1))
@@ -1848,19 +1850,17 @@
     )
   )
 
-  (wire (pts (xy 223.52 154.94) (xy 220.98 154.94))
+  (wire (pts (xy 223.52 157.48) (xy 220.98 157.48))
     (stroke (width 0) (type default))
-    (uuid 7520844b-5cc2-5464-b38e-463bb46db01e)
-  )
-
-  (label "VCC_RF" (at 220.98 154.94 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid b4235316-4b36-5022-8a4b-21ec7576dbe0)
   )
 
-  (no_connect (at 223.52 157.48) (uuid 3f653db1-92c6-56f4-a950-14c70bb80fbd))
+  (label "VCC_RF" (at 220.98 157.48 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid 3f653db1-92c6-56f4-a950-14c70bb80fbd)
+  )
 
-  (text "J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n1,2: ANT - coil soldered on module, ~100Vpp, NC here\n3: ASCII select = VCC_RF (UART mode)\n4: BEEP (NC)\n5: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n6: Wiegand D0 (NC)\n7: /RESET (R7 pull-up)\n8: GND\n9: VCC_RF (5V, RC filtered)\n10: key, NC" (at 213.36 106.68 0)
+  (text "J3 -> WL-125 RFID (1x10 socket, 2.54mm)\nJ3 pin = module pin + 1\n1: key (next to module pin 1), NC\n2,3: ANT1/2 - coil soldered on module, ~100Vpp, NC here\n4: ASCII select = VCC_RF (UART mode)\n5: BEEP (NC)\n6: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n7: Wiegand D0 (NC)\n8: /RESET (R7 pull-up)\n9: GND\n10: VCC_RF (5V, RC filtered)" (at 213.36 106.68 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 33d60e3f-1fdc-5eb7-951f-3d412cd9f879)
   )
