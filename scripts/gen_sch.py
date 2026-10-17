@@ -66,6 +66,7 @@ LIBS = {
     'Device:R': embed('Device', 'R'),
     'Device:C': embed('Device', 'C'),
     'Device:C_Polarized': embed('Device', 'C_Polarized'),
+    'Connector_Generic:Conn_01x02': embed('Connector_Generic', 'Conn_01x02'),
     'Connector_Generic:Conn_01x05': embed('Connector_Generic', 'Conn_01x05'),
     'Connector_Generic:Conn_01x07': embed('Connector_Generic', 'Conn_01x07'),
     'Connector_Generic:Conn_01x10': embed('Connector_Generic', 'Conn_01x10'),
@@ -271,8 +272,8 @@ text('R3: CHG_INT pull-up\n(BQ25798 /INT is open-drain)', 76.2, 138.43)
 j3 = place('Connector_Generic:Conn_01x10', 'J3', 'WL-125', 228.6, 144.78,
            footprint='Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical')
 nc(j3['1'])                   # key
-nc(j3['2'])                   # module 1 ANT1: coil soldered on the module, ~100 Vpp
-nc(j3['3'])                   # module 2 ANT2
+label(j3['2'], 'ANT1')        # module 1 ANT1: ~100 Vpp resonant voltage
+label(j3['3'], 'ANT2')        # module 2 ANT2
 label(j3['4'], 'VCC_RF')      # module 3 ASCII select: high = UART output (must not float)
 nc(j3['5'])                   # module 4 BEEP
 label(j3['6'], 'RFID_TX_5V')  # module 5 TX 9600 8N1, 5V TTL
@@ -283,11 +284,22 @@ label(j3['10'], 'VCC_RF')     # module 9 VCC
 text('J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n'
      'J3 pin = module pin + 1\n'
      '1: key (next to module pin 1), NC\n'
-     '2,3: ANT1/2 - coil soldered on module, ~100Vpp, NC here\n'
+     '2,3: ANT1/2 -> J4 antenna connector, ~100Vpp\n'
      '4: ASCII select = VCC_RF (UART mode)\n5: BEEP (NC)\n'
      '6: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n7: Wiegand D0 (NC)\n'
      '8: /RESET (R7 pull-up)\n9: GND\n10: VCC_RF (5V, 3-stage RC filtered)',
      213.36, 106.68)
+
+# ---- J4: 125kHz antenna coil, Molex PicoBlade 1.25mm 2-pin -------------------------
+j4 = place('Connector_Generic:Conn_01x02', 'J4', 'RFID_ANT', 228.6, 172.72,
+           footprint='Connector_Molex:Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical',
+           fields={'MPN': 'Molex 53047-0210'})
+label(j4['1'], 'ANT1')
+label(j4['2'], 'ANT2')
+text('J4 -> RFID antenna coil (Molex PicoBlade 1.25mm, 2-pin)\n'
+     'ANT1/ANT2 carry ~50-100Vpp at 125kHz:\n'
+     'short, parallel traces; >=0.5mm clearance; no copper pour around them',
+     213.36, 182.88)
 
 # TX level shift 5V -> 3.0V for T4 UART4_RX: BSS138 bidirectional shifter
 # (same topology as Adafruit #757), LV side 3.0V, HV side VCC_RF
