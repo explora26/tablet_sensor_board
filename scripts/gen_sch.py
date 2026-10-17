@@ -313,23 +313,26 @@ label(r7['2'], 'RFID_RST')
 # First R is 4.7R to limit inrush into 3 x 1000uF from the T4 5V pin (~1A peak);
 # the 100nF at the last stage covers what the electrolytics miss above ~1MHz.
 RF_R = 'Resistor_SMD:R_0805_2012Metric'
-RF_C = 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm'
+RF_C = 'Capacitor_SMD:CP_Elec_8x10.5'
 r6 = place('Device:R', 'R6', '4.7R', 104.14, 193.04, footprint=RF_R)
 pwr(r6['1'], '+5V')
 label(r6['2'], 'VRF1')
-c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 116.84, 193.04, footprint=RF_C)
+c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 116.84, 193.04, footprint=RF_C,
+           fields={'MPN': 'Panasonic EEE-FT1A102AP', 'LCSC': 'C278408'})
 label(c5['1'], 'VRF1')
 pwr(c5['2'], 'GND')
 r8 = place('Device:R', 'R8', '1R', 134.62, 193.04, footprint=RF_R)
 label(r8['1'], 'VRF1')
 label(r8['2'], 'VRF2')
-c7 = place('Device:C_Polarized', 'C7', '1000uF 10V', 147.32, 193.04, footprint=RF_C)
+c7 = place('Device:C_Polarized', 'C7', '1000uF 10V', 147.32, 193.04, footprint=RF_C,
+           fields={'MPN': 'Panasonic EEE-FT1A102AP', 'LCSC': 'C278408'})
 label(c7['1'], 'VRF2')
 pwr(c7['2'], 'GND')
 r9 = place('Device:R', 'R9', '1R', 165.1, 193.04, footprint=RF_R)
 label(r9['1'], 'VRF2')
 label(r9['2'], 'VCC_RF')
-c8 = place('Device:C_Polarized', 'C8', '1000uF 10V', 177.8, 193.04, footprint=RF_C)
+c8 = place('Device:C_Polarized', 'C8', '1000uF 10V', 177.8, 193.04, footprint=RF_C,
+           fields={'MPN': 'Panasonic EEE-FT1A102AP', 'LCSC': 'C278408'})
 label(c8['1'], 'VCC_RF')
 pwr(c8['2'], 'GND')
 c6 = place('Device:C', 'C6', '100nF', 195.58, 193.04, footprint=C_FP)

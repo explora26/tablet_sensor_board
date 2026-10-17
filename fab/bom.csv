@@ -15,5 +15,5 @@ R5,1,10k 1%,0603,Level shifter HV-side pull-up (VCC_RF 5V)
 R6,1,4.7R,0805,RFID supply RC filter stage 1 (limits inrush)
 R8 R9,2,1R,0805,RFID supply RC filter stages 2-3
 R7,1,10k 1%,0603,WL-125 /RESET pull-up
-C5 C7 C8,3,1000uF 10V,Radial D10mm P5mm,RFID supply RC filter capacitors
+C5 C7 C8,3,1000uF 10V,SMD 8x10.2mm (CP_Elec_8x10.5),RFID supply RC filter capacitors - Panasonic EEE-FT1A102AP (LCSC C278408)
 C6,1,100nF 10V X7R,0603,RFID supply HF decoupling (at J3)
