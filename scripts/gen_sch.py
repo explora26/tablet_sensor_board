@@ -286,7 +286,7 @@ text('J3 -> WL-125 RFID (1x10 socket, 2.54mm)\n'
      '2,3: ANT1/2 - coil soldered on module, ~100Vpp, NC here\n'
      '4: ASCII select = VCC_RF (UART mode)\n5: BEEP (NC)\n'
      '6: TX 9600 8N1, 5V -> Q1 level shifter -> RFID_TX 3.0V\n7: Wiegand D0 (NC)\n'
-     '8: /RESET (R7 pull-up)\n9: GND\n10: VCC_RF (5V, RC filtered)',
+     '8: /RESET (R7 pull-up)\n9: GND\n10: VCC_RF (5V, 3-stage RC filtered)',
      213.36, 106.68)
 
 # TX level shift 5V -> 3.0V for T4 UART4_RX: BSS138 bidirectional shifter
@@ -309,17 +309,35 @@ r7 = place('Device:R', 'R7', '10k', 157.48, 152.4, footprint=R_FP)
 label(r7['1'], 'VCC_RF')
 label(r7['2'], 'RFID_RST')
 
-# clean 5V for the 125kHz reader: series R + 1000uF (per WL-125 datasheet)
-r6 = place('Device:R', 'R6', '2.2R', 167.64, 152.4, footprint='Resistor_SMD:R_0805_2012Metric')
+# clean 5V for the 125kHz reader: 3-stage RC (per WL-125 datasheet appendix).
+# First R is 4.7R to limit inrush into 3 x 1000uF from the T4 5V pin (~1A peak);
+# the 100nF at the last stage covers what the electrolytics miss above ~1MHz.
+RF_R = 'Resistor_SMD:R_0805_2012Metric'
+RF_C = 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm'
+r6 = place('Device:R', 'R6', '4.7R', 104.14, 193.04, footprint=RF_R)
 pwr(r6['1'], '+5V')
-label(r6['2'], 'VCC_RF')
-c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 180.34, 152.4,
-           footprint='Capacitor_THT:CP_Radial_D10.0mm_P5.00mm')
-label(c5['1'], 'VCC_RF')
+label(r6['2'], 'VRF1')
+c5 = place('Device:C_Polarized', 'C5', '1000uF 10V', 116.84, 193.04, footprint=RF_C)
+label(c5['1'], 'VRF1')
 pwr(c5['2'], 'GND')
-c6 = place('Device:C', 'C6', '100nF', 198.12, 152.4, footprint=C_FP)
+r8 = place('Device:R', 'R8', '1R', 134.62, 193.04, footprint=RF_R)
+label(r8['1'], 'VRF1')
+label(r8['2'], 'VRF2')
+c7 = place('Device:C_Polarized', 'C7', '1000uF 10V', 147.32, 193.04, footprint=RF_C)
+label(c7['1'], 'VRF2')
+pwr(c7['2'], 'GND')
+r9 = place('Device:R', 'R9', '1R', 165.1, 193.04, footprint=RF_R)
+label(r9['1'], 'VRF2')
+label(r9['2'], 'VCC_RF')
+c8 = place('Device:C_Polarized', 'C8', '1000uF 10V', 177.8, 193.04, footprint=RF_C)
+label(c8['1'], 'VCC_RF')
+pwr(c8['2'], 'GND')
+c6 = place('Device:C', 'C6', '100nF', 195.58, 193.04, footprint=C_FP)
 label(c6['1'], 'VCC_RF')
 pwr(c6['2'], 'GND')
+text('WL-125 supply: 3-stage RC filter +5V -> VRF1 -> VRF2 -> VCC_RF\n'
+     'R6 4.7R limits inrush (~1A); drop ~0.17V @ 25mA\n'
+     'C8 + C6 close to J3 pin 10 (module VCC)', 99.06, 213.36)
 
 # ---- U2: LIS3DH --------------------------------------------------------------------
 u2 = place('Sensor_Motion:LIS3DH', 'U2', 'LIS3DH', 167.64, 81.28,
@@ -351,7 +369,7 @@ sch = f'''(kicad_sch (version 20230121) (generator eeschema)
 
   (uuid {ROOT_UUID})
 
-  (paper "A4")
+  (paper "A3")
 
   (title_block
     (title "LIS3DH I2C Accelerometer Board")

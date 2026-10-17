@@ -12,7 +12,8 @@ J3,1,1x10 pin socket,2.54mm vertical,Socket for WL-125 RFID module (pin 1 = key,
 Q1,1,BSS138,SOT-23,RFID TX level shifter 5V -> 3.0V
 R4,1,10k 1%,0603,Level shifter LV-side pull-up (3.0V)
 R5,1,10k 1%,0603,Level shifter HV-side pull-up (VCC_RF 5V)
-R6,1,2.2R,0805,RFID supply filter
+R6,1,4.7R,0805,RFID supply RC filter stage 1 (limits inrush)
+R8 R9,2,1R,0805,RFID supply RC filter stages 2-3
 R7,1,10k 1%,0603,WL-125 /RESET pull-up
-C5,1,1000uF 10V,Radial D10mm P5mm,RFID supply bulk capacitor
-C6,1,100nF 10V X7R,0603,RFID supply decoupling
+C5 C7 C8,3,1000uF 10V,Radial D10mm P5mm,RFID supply RC filter capacitors
+C6,1,100nF 10V X7R,0603,RFID supply HF decoupling (at J3)
