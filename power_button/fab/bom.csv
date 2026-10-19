@@ -1,0 +1,4 @@
+Designator,Qty,Value,Package,Manufacturer,MPN,LCSC,Assembly,Status,Notes
+SW1,1,K6-6277D-02 (red LED),THT right-angle,KRHRO,K6-6277D-02,C693836,hand solder,check,LCSC number from the datasheet file name; confirm it is the red (-02) variant
+R1,1,1k 1%,0603,YAGEO,RC0603FR-071KL,,SMT or hand solder,find LCSC,LED current limit (~3mA at 5V)
+J1,1,JST PH 4P vertical,2.0mm THT,JST,B4B-PH-K-S(LF)(SN),,hand solder,find LCSC,Main board connection

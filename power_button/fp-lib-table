@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "power_button")(type "KiCad")(uri "${KIPRJMOD}/power_button.pretty")(options "")(descr "Power button board footprints"))
+)

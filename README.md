@@ -1,5 +1,7 @@
 # LIS3DH 三軸加速度計小板（NanoPC-T4 I2C2）
 
+> 另一塊平板電源鍵小板在 [`power_button/`](power_button/README.md)。
+
 板上用 LDO 轉出 3.0V，讓 I2C 電位和 NanoPC-T4 的 I2C2（3.0V I/O）一致，同時經 JST 接頭供電和 I2C 給 BQ25798 充電板。
 
 **狀態：原理圖和 layout 完成（87.6 × 25.4 mm，雙層板），DRC 無錯誤。**
